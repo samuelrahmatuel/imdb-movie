@@ -36,7 +36,7 @@ user_genre = st.text_input('Enter your preferred movie genre (e.g. action, adven
 # Recommendations
 if st.button("Get Recommendations"):
     selected_movies = df[(df['Mood'].str.lower().str.contains(user_mood)) & (df['Movie Genres'].str.lower().str.contains(user_genre))]
-    selected_movies = selected_movies.sort_values(['Average Rating', 'Number of Votes'], ascending=False)
+    selected_movies = selected_movies.sort_values('Number of Votes', ascending=False)
     num_recommendations = min(10, len(selected_movies))
     recommendations = selected_movies.head(num_recommendations)
 
