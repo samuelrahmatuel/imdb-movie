@@ -32,11 +32,17 @@ st.write("""
 # User input
 user_mood = st.text_input('Enter your current mood (e.g. happy, sad, romantic, action-packed or choose from mood table): ').lower()
 user_genre = st.text_input('Enter your preferred movie genre (e.g. action, adventure, comedy, drama or choose from genre table): ').lower()
+def custom_sort(row):
+    if row['Number of Votes'] == 0:
+        return 0
+    else:
+        return row['Average Rating'] / row['Number of Votes']
 
-# Recommendations
 if st.button("Get Recommendations"):
     selected_movies = df[(df['Mood'].str.lower().str.contains(user_mood)) & (df['Movie Genres'].str.lower().str.contains(user_genre))]
-    selected_movies = selected_movies.sort_values('Number of Votes', ascending=False)
+    selected_movies = selected_movies[selected_movies['Average Rating'] <= 9.9]
+    selected_movies['sorting_key'] = selected_movies.apply(custom_sort, axis=1)
+    selected_movies = selected_movies.sort_values('sorting_key', ascending=False)
     num_recommendations = min(10, len(selected_movies))
     recommendations = selected_movies.head(num_recommendations)
 
