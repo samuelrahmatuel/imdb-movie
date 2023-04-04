@@ -32,11 +32,17 @@ st.write("""
 # User input
 user_mood = st.text_input('Enter your current mood (e.g. happy, sad, romantic, action-packed or choose from mood table): ').lower()
 user_genre = st.text_input('Enter your preferred movie genre (e.g. action, adventure, comedy, drama or choose from genre table): ').lower()
+
 def custom_sort(row):
-    if row['Number of Votes'] == 0:
-        return 0
-    else:
-        return row['Average Rating'] / row['Number of Votes']
+    # Calculate a score based on the average rating and the number of votes
+    score = row['Average Rating'] * row['Number of Votes'] / max(row['Number of Votes'], 5000)
+    
+    # Give a boost to more recent movies
+    release_date = pd.to_datetime(row['Year Release'], format='%Y')
+    years_since_release = (pd.Timestamp.today() - release_date).days / 365.25
+    score *= 1 / (years_since_release + 1)
+    
+    return score
 
 if st.button("Get Recommendations"):
     selected_movies = df[(df['Mood'].str.lower().str.contains(user_mood)) & (df['Movie Genres'].str.lower().str.contains(user_genre))]
