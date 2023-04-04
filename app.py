@@ -5,8 +5,8 @@ import streamlit as st
 df = pd.read_csv('IMDB_Movie_Clean_Label.csv')
 
 # App title and description
-st.title("190,000 Movie Recommender")
-st.write("Welcome to the Mood-based Movie Recommendation App! Please enter your current mood, preferred movie genre, and get personalized movie recommendations!")
+st.title("190,000 Movie Recommender (1998-2023)")
+st.write("Welcome to the Mood-based Movie Recommendation App! Please enter your current mood, preferred movie genre, and get personalized movie recommendations! *WIP Project*")
 
 # Display tables
 st.subheader("Mood Cluster by K-means")
@@ -48,5 +48,5 @@ if st.button("Get Recommendations"):
         for i, movie in enumerate(recommendations.itertuples()):
             st.write(f"{i+1}. {movie._1} ({movie._2}), {movie._5:.1f}/10 Rating")
 
-st.write("Next Progress : Better Algorithms")
+st.write("Next Progress : Better UI, Better Algorithms, Implementing Deep Learning for recommendation, Add more features")
 st.markdown("<p style='text-align: right; font-style: italic;'>Created by: <a href='https://rahmatuelsamuel.com'>Rahmatuel Samuel</a></p>", unsafe_allow_html=True)
